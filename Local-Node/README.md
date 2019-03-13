@@ -55,8 +55,9 @@ Completing this tutorial should take about 30 minutes.
   A Hyperledger Fabric channel is a private “subnet” of communication between two or more specific network members, for the purpose of conducting private and confidential transactions. A channel is defined by members (organizations), anchor peers per member, the shared ledger, chaincode application(s) and the ordering service node(s). Each transaction on the network is executed on a channel, where each party must be authenticated and authorized to transact on that channel.
 
   ```
-  cd app
+  cd client
   run 'node create-channel.js'
+  run 'node join-channel.js'
   ```
 
   This will create the default channel - mychannel. To update the default values, eidt here : config.json
@@ -67,7 +68,7 @@ Completing this tutorial should take about 30 minutes.
 
   ```
   cd app
-  run 'node deploy.js'
+  run 'node run-deploy-chaincode.js'
   ```
 
   You can update the chaincode here : chaincode/src/github.com
@@ -75,11 +76,11 @@ Completing this tutorial should take about 30 minutes.
 
 ### 4. Invoke Chaincode
 
-  To update or query the ledger in a proposal transaction, need to invoke chaincode. To invoke chaincode you need the function name which is defined in chaincode and its arguments. Additionally, the user context is also required to perform invoke operation.
+  To add/update the ledger in a proposal transaction, need to invoke chaincode. To invoke chaincode you need the function name which is defined in chaincode and its arguments. Additionally, the user context is also required to perform invoke operation.
 
   ```
-  cd app
-  run 'node invoke.js'
+  cd client
+  run 'node run-invoke-request.js'
   ```
 
   As per the fabcar chaincode, the input to invoke transactios can be updated here : config.json
@@ -96,28 +97,34 @@ Completing this tutorial should take about 30 minutes.
         "functionName": "createCar",
         "args":["MyCar", "Mercedes", "S-Class", "blue", "Pushpa"]
       }
+
     ```
+  - To change car owner
+    ```
+      "queryRequest":{
+        "functionName": "changeCarOwner",
+        "args":["MyCar", "Pushpa", "Vrushabh"]    // where Pushpa was the old owner and Vrushabh is the new owner
+      }
+    ```
+
+### 5. query Chaincode
+
+    To  query the ledger.
+
   - Query a car
     ```
-        "invokeRequest":{
+        "queryRequest":{
         "functionName": "queryCar",
         "args":["MyCar"]
       }
      ```
   - To get all cars
     ```
-    "invokeRequest":{
+    "queryRequest":{
       "functionName": "queryAllCars",
       "args":[]
     }
      ```
-  - To change car owner
-    ```
-      "invokeRequest":{
-        "functionName": "queryAllCars",
-        "args":["MyCar", "Pushpa", "Vrushabh"]    // where Pushpa was the old owner and Vrushabh is the new owner
-      }
-    ```
 ## Summary
 
 In this tutorial you learnt how to setup a hyperledger fabric network and use Java SDK APIs to interact it.
